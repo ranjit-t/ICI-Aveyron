@@ -34,6 +34,7 @@ const Sorties = () => {
                     width: width,
                     backgroundColor: "#afc5e858",
                     alignItems: "center",
+                    marginBottom: 20,
                   })
                 }
               >
@@ -99,12 +100,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   pageButton: {
-    fontSize: 20,
+    fontSize: 17,
     height: 35,
     color: "white",
     backgroundColor: "#008cba",
     padding: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 7,
     borderRadius: 10,
     marginVertical: 15,
   },

@@ -7,10 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
+  Pressable,
 } from "react-native";
 import { StoresData } from "../assets/Data/StoresData";
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
+
+import { useNavigation } from "@react-navigation/native";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
 
@@ -19,6 +22,8 @@ const Stores = ({ searchModal }) => {
   const [searchCity, setSearchCity] = useState("");
 
   const [searchModalinStore, setSearchModalinStore] = useState(false);
+
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -126,26 +131,40 @@ const Stores = ({ searchModal }) => {
           renderItem={(store) => {
             return (
               <View style={styles.eachStore}>
-                <Image
-                  source={{ uri: store.item.photos[0] }}
-                  style={styles.image}
-                  //   style={{ width: 150, height: 100 }}
-                />
-                <Text style={styles.storeHeading}>{store.item.name}</Text>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>Type : </Text>
-                  <Text>{store.item.type}</Text>
-                </View>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>Ville : </Text>
-                  <Text>{store.item.city}</Text>
-                </View>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>
-                    Speciality :
-                  </Text>
-                  <Text>{store.item.speciality}</Text>
-                </View>
+                <Pressable
+                  // android_ripple={{ color: "#245953" }}
+                  style={({ pressed }) =>
+                    pressed
+                      ? [styles.eachStore, styles.normalView, styles.pressed]
+                      : [styles.normalView, styles.eachStore]
+                  }
+                  onPress={() => {
+                    navigation.navigate("SingleStore", {
+                      storeID: store.item.storeID,
+                    });
+                  }}
+                >
+                  <Image
+                    source={{ uri: store.item.photos[0] }}
+                    style={styles.image}
+                    //   style={{ width: 150, height: 100 }}
+                  />
+                  <Text style={styles.storeHeading}>{store.item.name}</Text>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>Type : </Text>
+                    <Text>{store.item.type}</Text>
+                  </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>Ville : </Text>
+                    <Text>{store.item.city}</Text>
+                  </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>
+                      Speciality :
+                    </Text>
+                    <Text>{store.item.speciality}</Text>
+                  </View>
+                </Pressable>
               </View>
             );
           }}
@@ -239,6 +258,12 @@ const styles = StyleSheet.create({
   },
   activityText: {
     fontSize: 18,
+  },
+  normalView: {
+    opacity: 1,
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });
 
