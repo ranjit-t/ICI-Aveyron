@@ -20,6 +20,15 @@ export default function App() {
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: "#008cba",
+          headerTintColor: "#008cba",
+          headerTitleAlign: "center",
+          tabBarStyle: {
+            height: 60,
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            paddingBottom: 6,
+          },
         }}
       >
         <Tab.Screen
@@ -33,7 +42,7 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name="Stores"
+          name="Nos Meilleures Adresses"
           component={Stores}
           options={{
             tabBarLabel: "Magasins",
@@ -61,7 +70,7 @@ export default function App() {
           name="Profil"
           component={Profile}
           options={{
-            tabBarLabel: "Profile",
+            tabBarLabel: "Profil",
 
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
@@ -83,5 +92,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  allTabs: {
+    marginVertical: 100,
   },
 });
