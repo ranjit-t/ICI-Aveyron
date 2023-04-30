@@ -12,10 +12,13 @@ import { StoresData } from "../assets/Data/StoresData";
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 
-const Stores = () => {
+import AntIcon from "react-native-vector-icons/AntDesign";
+
+const Stores = ({ searchModal }) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [searchCity, setSearchCity] = useState("");
-  const [searchModal, setSearchModal] = useState(false);
+
+  const [searchModalinStore, setSearchModalinStore] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -26,48 +29,92 @@ const Stores = () => {
           alignItems: "center",
         }}
       >
-        <View style={styles.selectCateogory}>
-          <TextInput
-            placeholder="ville"
-            style={{ marginLeft: 10, fontSize: 20 }}
-            onChangeText={(itemValue) => setSearchCity(itemValue)}
-            value={searchCity}
-          />
-        </View>
-        <View style={[styles.searchContainer, styles.selectCateogory]}>
-          <Picker
-            style={styles.selectCateogory}
-            selectedValue={selectedValue}
-            onValueChange={(itemValue) => setSelectedValue(itemValue)}
-          >
-            <Picker.Item label="-- category --" value="" />
-            <Picker.Item label="Option 2" value="option2" />
-            <Picker.Item label="Option 3" value="option3" />
-          </Picker>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              setSearchCity("");
-              setSelectedValue("");
-              setSearchModal((prev) => !prev);
-            }}
-          >
-            <Text style={styles.pageButton}>Effacer</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {searchModal && (
-        <Modal animationType="slide" transparent={true}>
-          <View style={styles.searchModal}>
-            <Text>Modal</Text>
-            <TouchableOpacity
+        {!searchModalinStore && (
+          <View style={styles.selectSearch}>
+            {/* <TouchableOpacity
               onPress={() => {
-                setSearchModal((prev) => !prev);
+                setSearchModalinStore((prev) => !prev);
               }}
             >
-              <Text style={styles.pageButton}>Back</Text>
-            </TouchableOpacity>
+              <Text style={{ fontSize: 20, color: "grey" }}>Rechercher</Text>
+            </TouchableOpacity> */}
+            <AntIcon
+              name="search1"
+              color={"#008cba"}
+              size={30}
+              onPress={() => {
+                setSearchModalinStore((prev) => !prev);
+              }}
+            />
+          </View>
+        )}
+      </View>
+      {searchModalinStore && (
+        <Modal animationType="slide" transparent={true}>
+          <View
+            style={{
+              justifyContent: "flex-end",
+              flex: 1,
+            }}
+          >
+            <View style={styles.searchModal}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={[styles.selectCateogory, { backgroundColor: "#fff" }]}
+                >
+                  <TextInput
+                    placeholder="Ville"
+                    style={{
+                      fontSize: 22,
+                      color: "grey",
+                      marginLeft: 10,
+                    }}
+                    onChangeText={(itemValue) => setSearchCity(itemValue)}
+                    value={searchCity}
+                  />
+                </View>
+                <View style={[styles.searchContainer, styles.selectCateogory]}>
+                  <Picker
+                    style={styles.selectCateogory}
+                    selectedValue={selectedValue}
+                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                  >
+                    <Picker.Item label="-- category --" value="" />
+                    <Picker.Item label="Option 2" value="option2" />
+                    <Picker.Item label="Option 3" value="option3" />
+                  </Picker>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSearchCity("");
+                      setSelectedValue("");
+                      setSearchModalinStore((prev) => !prev);
+                      searchModal = false;
+                    }}
+                  >
+                    <Text style={styles.pageButton}>Rechercher</Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSearchModalinStore((prev) => !prev);
+                    }}
+                  >
+                    <Text style={[styles.pageButton, styles.cancelButton]}>
+                      Back
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
           </View>
         </Modal>
       )}
@@ -147,33 +194,51 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  selectSearch: {
+    // justifyContent: "center",
+    // alignItems: "center",
+    // width: 150,
+    // borderColor: "grey",
+    // borderWidth: 0.5,
+    // borderRadius: 10,
+    // margin: 5,
+    // height: 35,
+  },
   selectCateogory: {
     justifyContent: "center",
-    width: 150,
+    width: 250,
     borderColor: "grey",
     borderWidth: 0.5,
     borderRadius: 10,
     margin: 5,
-    height: 35,
+    height: 40,
   },
   pageButton: {
     fontSize: 20,
     height: 35,
-
     color: "white",
-    backgroundColor: "#008cba",
+    backgroundColor: "#759242",
     padding: 5,
+    paddingHorizontal: 10,
     borderRadius: 10,
+    marginTop: 10,
+  },
+  cancelButton: {
+    backgroundColor: "#DA6A00",
+    marginTop: 40,
   },
   searchModal: {
-    height: 350,
+    height: 450,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
     alignSelf: "center",
-    // position: "absolute",
-    // bottom: 0,
-    // left: 0,
+    width: 500,
+    backgroundColor: "#008cba",
+    borderTopLeftRadius: 100,
+    borderTopRightRadius: 100,
+  },
+  activityText: {
+    fontSize: 18,
   },
 });
 

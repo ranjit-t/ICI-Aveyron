@@ -1,12 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  useWindowDimensions,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import { Logo } from "./assets/Images/ici-laveyron.png";
-
-// import { Icon } from "@ant-design/react-native";
-import AntIcon from "react-native-vector-icons/AntDesign";
 
 import Homepage from "./Screens/Homepage";
 import Stores from "./Screens/Stores";
@@ -15,6 +17,7 @@ import Profile from "./Screens/Profile";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
+  const { width, height } = useWindowDimensions();
 
   return (
     <NavigationContainer>
@@ -47,10 +50,17 @@ export default function App() {
           component={Stores}
           options={{
             headerTitle: () => (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  // justifyContent: "flex-start",
+                  // width: width,
+                }}
+              >
                 <Image
                   source={require("./assets/Images/ici-laveyron.png")}
-                  style={{ height: 40, width: 40, marginRight: 5 }}
+                  style={{ height: 40, width: 40 }}
                 />
                 <Text
                   style={{
@@ -66,7 +76,7 @@ export default function App() {
             ),
             tabBarLabel: "Magasins",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="store" color={color} size={26} />
+              <MaterialCommunityIcons name="store" color={color} size={30} />
             ),
           }}
         />
