@@ -27,32 +27,18 @@ const Stores = ({ searchModal }) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {!searchModalinStore && (
-          <View style={styles.selectSearch}>
-            {/* <TouchableOpacity
-              onPress={() => {
-                setSearchModalinStore((prev) => !prev);
-              }}
-            >
-              <Text style={{ fontSize: 20, color: "grey" }}>Rechercher</Text>
-            </TouchableOpacity> */}
-            <AntIcon
-              name="search1"
-              color={"#008cba"}
-              size={30}
-              onPress={() => {
-                setSearchModalinStore((prev) => !prev);
-              }}
-            />
-          </View>
-        )}
+      <View style={styles.selectSearch}>
+        <AntIcon
+          name="search1"
+          color={"white"}
+          size={30}
+          onPress={() => {
+            setSearchModalinStore((prev) => !prev);
+          }}
+          style={{
+            padding: 15,
+          }}
+        />
       </View>
       {searchModalinStore && (
         <Modal animationType="slide" transparent={true}>
@@ -124,7 +110,7 @@ const Stores = ({ searchModal }) => {
         </Modal>
       )}
 
-      <View>
+      <View style={{ marginBottom: 20 }}>
         <FlatList
           data={StoresData}
           keyExtractor={(store) => store.storeID}
@@ -181,7 +167,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
   },
   image: {
@@ -189,7 +175,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   eachStore: {
-    marginVertical: 10,
+    // marginVertical: 10,
     alignItems: "center",
     elevation: 2,
     borderBottomColor: "white",
@@ -214,14 +200,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   selectSearch: {
-    // justifyContent: "center",
-    // alignItems: "center",
-    // width: 150,
-    // borderColor: "grey",
-    // borderWidth: 0.5,
-    // borderRadius: 10,
-    // margin: 5,
-    // height: 35,
+    width: 60,
+    height: 60,
+    backgroundColor: "#008cba",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    zIndex: 10,
+    borderRadius: 50,
   },
   selectCateogory: {
     justifyContent: "center",

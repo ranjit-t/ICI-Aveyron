@@ -67,7 +67,7 @@ export default function App() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginLeft: 50,
+                  marginLeft: width / 4,
                 }}
               >
                 <Image
@@ -81,9 +81,7 @@ export default function App() {
                     fontSize: 20,
                     fontWeight: "bold",
                   }}
-                >
-                  Single Store
-                </Text>
+                ></Text>
               </View>
             ),
           }}
