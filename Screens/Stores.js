@@ -16,8 +16,9 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
+import GestureRecognizer from "react-native-swipe-gestures";
 
-const Stores = ({ searchModal }) => {
+const Stores = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [searchCity, setSearchCity] = useState("");
 
@@ -41,73 +42,94 @@ const Stores = ({ searchModal }) => {
         />
       </View>
       {searchModalinStore && (
-        <Modal animationType="slide" transparent={true}>
-          <View
-            style={{
-              justifyContent: "flex-end",
-              flex: 1,
-            }}
-          >
-            <View style={styles.searchModal}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+        <GestureRecognizer
+          style={{ flex: 1 }}
+          // onSwipeUp={() => setSearchModalinStore((prev) => !prev)}
+          onSwipeDown={() => setSearchModalinStore((prev) => !prev)}
+        >
+          <Modal animationType="slide" transparent={true}>
+            <View
+              style={{
+                justifyContent: "flex-end",
+                flex: 1,
+              }}
+            >
+              <View style={styles.searchModal}>
                 <View
-                  style={[styles.selectCateogory, { backgroundColor: "#fff" }]}
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  <TextInput
-                    placeholder="Ville"
-                    style={{
-                      fontSize: 22,
-                      color: "grey",
-                      marginLeft: 10,
-                    }}
-                    onChangeText={(itemValue) => setSearchCity(itemValue)}
-                    value={searchCity}
-                  />
-                </View>
-                <View style={[styles.searchContainer, styles.selectCateogory]}>
-                  <Picker
-                    style={styles.selectCateogory}
-                    selectedValue={selectedValue}
-                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                  <Text style={styles.modalSearchText}>Ville</Text>
+                  <View
+                    style={[styles.searchContainer, styles.selectCateogory]}
                   >
-                    <Picker.Item label="-- category --" value="" />
-                    <Picker.Item label="Option 2" value="option2" />
-                    <Picker.Item label="Option 3" value="option3" />
-                  </Picker>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSearchCity("");
-                      setSelectedValue("");
-                      setSearchModalinStore((prev) => !prev);
-                      searchModal = false;
-                    }}
+                    <Picker
+                      style={styles.selectCateogory}
+                      selectedValue={searchCity}
+                      onValueChange={(itemValue) => setSearchCity(itemValue)}
+                    >
+                      <Picker.Item label="----" value="" />
+                      <Picker.Item label="Rodez" value="Rodez" />
+                      <Picker.Item label="Naucelle" value="Naucelle" />
+                    </Picker>
+                  </View>
+                  <Text style={styles.modalSearchText}>Category</Text>
+                  <View
+                    style={[styles.searchContainer, styles.selectCateogory]}
                   >
-                    <Text style={styles.pageButton}>Rechercher</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSearchModalinStore((prev) => !prev);
-                    }}
-                  >
-                    <Text style={[styles.pageButton, styles.cancelButton]}>
-                      Back
-                    </Text>
-                  </TouchableOpacity>
+                    <Picker
+                      style={styles.selectCateogory}
+                      selectedValue={selectedValue}
+                      onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                    >
+                      <Picker.Item label="----" value="" />
+                      <Picker.Item label="a manger" value="a manger" />
+                      <Picker.Item label="a dormir" value="a manger" />
+                    </Picker>
+                  </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // setSearchCity("");
+                        // setSelectedValue("");
+                        setSearchModalinStore((prev) => !prev);
+                        searchModal = false;
+                      }}
+                    >
+                      <Text style={styles.pageButton}>Rechercher</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSearchCity("");
+                        setSelectedValue("");
+                        // setSearchModalinStore((prev) => !prev);
+                        searchModal = false;
+                      }}
+                    >
+                      <Text style={[styles.pageButton, styles.clearButton]}>
+                        Effacer
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  {/* <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSearchModalinStore((prev) => !prev);
+                      }}
+                    >
+                      <Text style={[styles.pageButton, styles.cancelButton]}>
+                        Back
+                      </Text>
+                    </TouchableOpacity>
+                  </View> */}
                 </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        </GestureRecognizer>
       )}
 
       <View style={{ marginBottom: 20 }}>
@@ -167,7 +189,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: "#fff",
     alignItems: "center",
   },
   image: {
@@ -175,7 +196,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   eachStore: {
-    // marginVertical: 10,
     alignItems: "center",
     elevation: 2,
     borderBottomColor: "white",
@@ -225,12 +245,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#759242",
     padding: 5,
     paddingHorizontal: 10,
+    marginHorizontal: 10,
     borderRadius: 10,
     marginTop: 10,
   },
-  cancelButton: {
+  clearButton: {
     backgroundColor: "#DA6A00",
-    marginTop: 40,
   },
   searchModal: {
     height: 450,
@@ -242,6 +262,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
   },
+  modalSearchText: { fontSize: 20, color: "white", fontWeight: "bold" },
   activityText: {
     fontSize: 18,
   },

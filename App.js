@@ -75,12 +75,14 @@ export default function App() {
                   style={{ height: 40, width: 40 }}
                 />
                 <Text
-                  style={{
-                    fontSize: 16,
-                    color: "#008cba",
-                    fontSize: 20,
-                    fontWeight: "bold",
-                  }}
+                  style={
+                    {
+                      // fontSize: 16,
+                      // color: "#008cba",
+                      // fontSize: 20,
+                      // fontWeight: "bold",
+                    }
+                  }
                 ></Text>
               </View>
             ),
@@ -133,7 +135,6 @@ export default function App() {
           options={{
             tabBarLabel: "Sorties",
             tabBarIcon: ({ color }) => (
-              // <AntIcon name="calendar" size={20} color={color} />
               <MaterialCommunityIcons
                 name="calendar-month"
                 color={color}
