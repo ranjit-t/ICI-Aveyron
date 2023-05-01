@@ -10,8 +10,11 @@ import {
 import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import { db, signedUser, auth } from "../Firebase/config";
+import { useNavigation } from "@react-navigation/native";
 
 const EachSortie = ({ route }) => {
+  const navigation = useNavigation();
+
   const eventID = route.params.eventID;
   const [act, setAct] = useState([]);
   const now = new Date().getTime(); // get the current time
@@ -110,7 +113,9 @@ const EachSortie = ({ route }) => {
               },
             ]}
             onPress={() => {
-              //   navigate(`/user-profile/${act.uid}`);
+              navigation.navigate("UserProfile", {
+                userUID: act.uid,
+              });
             }}
           >
             {act.organizer}
@@ -124,7 +129,7 @@ const EachSortie = ({ route }) => {
           </Text>
         </View>
         <View>
-          <Text style={{ flexDirection: "row", marginBottom: 10 }}>
+          <Text style={{ flexDirection: "row", marginVertical: 10 }}>
             {act.participants &&
               act.participants.map((part, idx) => {
                 const isLast = idx === act.participants.length - 1;
@@ -133,7 +138,9 @@ const EachSortie = ({ route }) => {
                   <Text
                     key={idx}
                     onPress={() => {
-                      // navigate(`/user-profile/${part.userUID}`);
+                      navigation.navigate("UserProfile", {
+                        userUID: part.userUID,
+                      });
                     }}
                     style={[
                       styles.activityText,
@@ -282,15 +289,17 @@ const EachSortie = ({ route }) => {
                       <Text
                         style={styles.commenterName}
                         onPress={() => {
-                          //   navigate(`/user-profile/${com.userUID}`);
+                          navigation.navigate("UserProfile", {
+                            userUID: com.userUID,
+                          });
                         }}
                       >
                         {com.user} :{" "}
                         <Text
                           style={{
-                            fontSize: 16,
-                            // marginLeft: 20,
+                            fontSize: 18,
                             fontWeight: "normal",
+                            lineHeight: 24,
                           }}
                         >
                           {com.comment}
@@ -348,7 +357,6 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: "red",
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 5,
     marginTop: 10,
   },
@@ -379,7 +387,10 @@ const styles = StyleSheet.create({
   commentInputText: {
     color: "white",
     fontWeight: "bold",
+    padding: 5,
+    borderRadius: 5,
   },
+
   commentSection: {
     width: "100%",
     marginLeft: "auto",
@@ -390,11 +401,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   eachComment: {
-    backgroundColor: "rgba(213, 213, 213, 0.356)",
+    backgroundColor: "#afc5e858",
     marginTop: 15,
     padding: 10,
     paddingBottom: 20,
-
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
@@ -407,12 +417,13 @@ const styles = StyleSheet.create({
   },
   eachCommentText: {
     marginLeft: 10,
+    lineHeight: 3,
   },
   timeStamp: {
     position: "absolute",
     right: 0,
     top: 0,
-    fontSize: 12,
+    color: "#424141",
   },
   commentInput: {
     flexDirection: "row",

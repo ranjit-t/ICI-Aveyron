@@ -6,6 +6,7 @@ import Sorties from "../Screens/Sorties";
 import EachSortie from "../Screens/EachSortie";
 
 import React from "react";
+import UserProfile from "../Screens/UserProfile";
 
 const StackNavigationSorties = () => {
   const Stack = createNativeStackNavigator();
@@ -69,6 +70,26 @@ const StackNavigationSorties = () => {
                   }
                 }
               ></Text>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerTitleAlign: "center",
+          headerTitle: () => (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                source={require("../assets/Images/ici-laveyron.png")}
+                style={{ height: 40, width: 40 }}
+              />
             </View>
           ),
         }}
