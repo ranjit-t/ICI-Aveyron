@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import useActivities from "../assets/Data/AllActivities";
+
 const Sorties = () => {
   const { width, height } = useWindowDimensions();
 
   const allActivities = useActivities();
   const now = new Date().getTime();
+
+  const navigation = useNavigation();
 
   const upcomingActivities = allActivities
     .filter((act) => new Date(act.date).getTime() >= now)
@@ -56,7 +61,13 @@ const Sorties = () => {
                   <Text style={styles.storeDescriptionHeading}>Date : </Text>
                   <Text style={styles.activityText}>{act.item.date}</Text>
                 </View>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("SingleSortie", {
+                      eventID: act.item.id,
+                    });
+                  }}
+                >
                   <Text style={[styles.pageButton, styles.cancelButton]}>
                     Plus d'options
                   </Text>
