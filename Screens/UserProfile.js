@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 const UserProfile = ({ route }) => {
   const userUID = route.params.userUID;
-  //   console.log(route);
+
   //age
   function calculateAge(timestamp) {
     const birthday = new Date(timestamp * 1000);

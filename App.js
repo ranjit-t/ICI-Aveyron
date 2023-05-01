@@ -8,6 +8,7 @@ import Homepage from "./Screens/Homepage";
 import Profile from "./Screens/Profile";
 import StackNavigationSorties from "./StackNavigation/StackNavigationSorties";
 import StackNavigationStores from "./StackNavigation/StackNavigationStores";
+import StackNavigationProfile from "./StackNavigationProfile.js/StackNavigationProfile";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -32,6 +33,7 @@ export default function App() {
           name="Home"
           component={Homepage}
           options={{
+            headerTitle: "AVEYRON-ICI",
             tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
@@ -65,11 +67,11 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name="Profil"
-          component={Profile}
+          name="All Profile"
+          component={StackNavigationProfile}
           options={{
+            headerShown: false,
             tabBarLabel: "Profil",
-
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="shield-account"

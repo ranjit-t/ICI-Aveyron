@@ -168,44 +168,46 @@ const EachSortie = ({ route }) => {
                   si vous changez d'avis, vous pouvez l'annuler
                 </Text>
 
-                <TouchableOpacity
-                  style={styles.cancelButton}
-                  onPress={async () => {
-                    const updatedParticipants = act.participants.filter(
-                      (participant) =>
-                        participant.email !== "amailtoranjith@gmail.com"
-                    );
-
-                    const actDocRef = doc(db, "activities", act.uid + act.id);
-                    const userDoc = await getDoc(actDocRef);
-                    if (userDoc.exists()) {
-                      await updateDoc(actDocRef, {
-                        participants: updatedParticipants,
-                      });
-
-                      //Removing from participated
-                      const userDocRef = doc(
-                        db,
-                        "users",
-                        "YDmNFX3RGsO9d2vEllwT7ItrfX82"
+                <View style={{ alignItems: "center" }}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={async () => {
+                      const updatedParticipants = act.participants.filter(
+                        (participant) =>
+                          participant.email !== "amailtoranjith@gmail.com"
                       );
-                      const userDoc = await getDoc(userDocRef);
-                      if (userDoc.exists()) {
-                        await updateDoc(userDocRef, {
-                          participated: arrayRemove(act.id),
-                        });
-                      }
 
-                      const updatedAct = {
-                        ...act,
-                        participants: updatedParticipants,
-                      };
-                      setAct(updatedAct);
-                    }
-                  }}
-                >
-                  <Text style={styles.buttonText}>Annuler</Text>
-                </TouchableOpacity>
+                      const actDocRef = doc(db, "activities", act.uid + act.id);
+                      const userDoc = await getDoc(actDocRef);
+                      if (userDoc.exists()) {
+                        await updateDoc(actDocRef, {
+                          participants: updatedParticipants,
+                        });
+
+                        //Removing from participated
+                        const userDocRef = doc(
+                          db,
+                          "users",
+                          "YDmNFX3RGsO9d2vEllwT7ItrfX82"
+                        );
+                        const userDoc = await getDoc(userDocRef);
+                        if (userDoc.exists()) {
+                          await updateDoc(userDocRef, {
+                            participated: arrayRemove(act.id),
+                          });
+                        }
+
+                        const updatedAct = {
+                          ...act,
+                          participants: updatedParticipants,
+                        };
+                        setAct(updatedAct);
+                      }
+                    }}
+                  >
+                    <Text style={styles.buttonText}>Annuler</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : (
               <View>
@@ -314,7 +316,9 @@ const EachSortie = ({ route }) => {
               })
           ) : (
             <View style={styles.eachComment} key={Math.random()}>
-              <Text style={styles.noComment}>No comments</Text>
+              <Text style={styles.noComment}>
+                avez des questions ou des annonces ?
+              </Text>
             </View>
           )}
         </View>
@@ -336,6 +340,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
+  noComment: {
+    fontSize: 17,
+  },
+
   activityText: {
     fontSize: 18,
     marginTop: 5,
@@ -356,14 +364,16 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: "red",
-    paddingVertical: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
     borderRadius: 5,
     marginTop: 10,
+    maxWidth: 120,
   },
   cancelButtonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
   },
   commentSection: {
