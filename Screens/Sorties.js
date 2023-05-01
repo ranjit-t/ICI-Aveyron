@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,8 +10,15 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 import useActivities from "../assets/Data/AllActivities";
+import SearchModal from "../ScreenComponents/SearchModal";
+import AntIcon from "react-native-vector-icons/AntDesign";
 
 const Sorties = () => {
+  const [searchModalinStore, setSearchModalinStore] = useState(true);
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchCity, setSearchCity] = useState("");
+  // const [searchDate, setSearchDate] = useState("");
+
   const { width, height } = useWindowDimensions();
 
   const allActivities = useActivities();
@@ -26,6 +33,30 @@ const Sorties = () => {
   //   console.log(upcomingActivities);
   return (
     <View style={styles.container}>
+      <View style={styles.selectSearch}>
+        <AntIcon
+          name="search1"
+          color={"white"}
+          size={30}
+          onPress={() => {
+            setSearchModalinStore((prev) => !prev);
+          }}
+          style={{
+            padding: 15,
+          }}
+        />
+      </View>
+      {searchModalinStore && (
+        <SearchModal
+          setSearchModalinStore={setSearchModalinStore}
+          searchCategory={searchCategory}
+          setSearchCategory={setSearchCategory}
+          searchCity={searchCity}
+          setSearchCity={setSearchCity}
+          // searchDate={searchDate}
+          // setSearchDate={setSearchDate}
+        ></SearchModal>
+      )}
       <View>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -123,6 +154,17 @@ const styles = StyleSheet.create({
   },
   activityText: {
     fontSize: 18,
+  },
+
+  selectSearch: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#008cba",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    zIndex: 10,
+    borderRadius: 50,
   },
 });
 

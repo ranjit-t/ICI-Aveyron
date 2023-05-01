@@ -86,8 +86,9 @@ const Stores = () => {
                       onValueChange={(itemValue) => setSelectedValue(itemValue)}
                     >
                       <Picker.Item label="----" value="" />
-                      <Picker.Item label="a manger" value="a manger" />
-                      <Picker.Item label="a dormir" value="a manger" />
+                      <Picker.Item label="Où manger" value="Où manger" />
+                      <Picker.Item label="Où dormir" value="Où dormir" />
+                      <Picker.Item label="Service" value="Service" />
                     </Picker>
                   </View>
                   <View style={{ flexDirection: "row" }}>
