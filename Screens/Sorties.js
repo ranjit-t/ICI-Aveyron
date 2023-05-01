@@ -28,6 +28,7 @@ const Sorties = () => {
     <View style={styles.container}>
       <View>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={upcomingActivities}
           keyExtractor={(act) => act.name}
           renderItem={(act) => {

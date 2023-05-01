@@ -13,7 +13,7 @@ const EachStore = ({ route }) => {
 
   //   console.log(currentStore[0]);
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Text style={styles.heading}>{currentStore.name}</Text>
         <View style={styles.imageSlider}>

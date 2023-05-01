@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
@@ -14,6 +15,37 @@ const EachSortie = ({ route }) => {
   const eventID = route.params.eventID;
   const [act, setAct] = useState([]);
   const now = new Date().getTime(); // get the current time
+
+  const [commented, setCommented] = useState(false);
+  const [newComment, setNewComment] = useState("");
+
+  const handleComment = async () => {
+    if (newComment) {
+      const updatedComments = [
+        ...act.comments,
+        {
+          user: "Ranjit",
+          userUID: "YDmNFX3RGsO9d2vEllwT7ItrfX82",
+          comment: newComment,
+          time: new Date().toLocaleString(),
+        },
+      ];
+
+      const actDocRef = doc(db, "activities", act.uid + act.id);
+      const actDoc = await getDoc(actDocRef);
+      // console.log(actDoc.data());
+      if (actDoc.exists()) {
+        await updateDoc(actDocRef, {
+          comments: updatedComments,
+        });
+      }
+      // setActivities(activitiesFetchData);
+      const updatedAct = { ...act, comments: updatedComments };
+      setAct(updatedAct);
+      setNewComment("");
+      setCommented((prev) => !prev);
+    }
+  };
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -32,15 +64,14 @@ const EachSortie = ({ route }) => {
       }
     };
     fetchActivities();
-  }, [eventID]);
+  }, [eventID, commented]);
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <Text style={{ fontWeight: "bold", fontSize: 20, marginVertical: 20 }}>
+        <Text style={{ fontWeight: "bold", fontSize: 20, marginVertical: 10 }}>
           {act.name}
         </Text>
-
         <View style={styles.activityDescriptionContainer}>
           <Text style={styles.activityDescription}>{act.description}</Text>
         </View>
@@ -93,7 +124,7 @@ const EachSortie = ({ route }) => {
           </Text>
         </View>
         <View>
-          <Text style={{ flexDirection: "row" }}>
+          <Text style={{ flexDirection: "row", marginBottom: 10 }}>
             {act.participants &&
               act.participants.map((part, idx) => {
                 const isLast = idx === act.participants.length - 1;
@@ -170,56 +201,114 @@ const EachSortie = ({ route }) => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <TouchableOpacity
-                style={[styles.attendButton, styles.notAttending]}
-                onPress={async () => {
-                  // console.log(auth.currentUser.displayName);
-                  const updatedParticipants = [
-                    ...act.participants,
-                    {
-                      user: "Ranjit",
-                      email: "amailtoranjith@gmail.com",
-                      userUID: "YDmNFX3RGsO9d2vEllwT7ItrfX82",
-                    },
-                  ];
-
-                  const actDocRef = doc(db, "activities", act.uid + act.id);
-                  const actDoc = await getDoc(actDocRef);
-                  if (actDoc.exists()) {
-                    await updateDoc(actDocRef, {
-                      participants: updatedParticipants,
-                    });
-                    const updatedAct = {
-                      ...act,
-                      participants: updatedParticipants,
-                    };
-                    setAct(updatedAct);
-                  }
-
-                  // adding to participated
-                  const userDocRef = doc(
-                    db,
-                    "users",
-                    "YDmNFX3RGsO9d2vEllwT7ItrfX82"
-                  );
-                  const userDoc = await getDoc(userDocRef);
-                  if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const participatedActivities = [
-                      ...userData.participated,
-                      act.id,
+              <View>
+                <TouchableOpacity
+                  style={[styles.attendButton, styles.notAttending]}
+                  onPress={async () => {
+                    // console.log(auth.currentUser.displayName);
+                    const updatedParticipants = [
+                      ...act.participants,
+                      {
+                        user: "Ranjit",
+                        email: "amailtoranjith@gmail.com",
+                        userUID: "YDmNFX3RGsO9d2vEllwT7ItrfX82",
+                      },
                     ];
-                    await updateDoc(userDocRef, {
-                      participated: participatedActivities,
-                    });
-                  }
-                }}
-              >
-                <Text style={styles.buttonText}>Participer</Text>
-              </TouchableOpacity>
+
+                    const actDocRef = doc(db, "activities", act.uid + act.id);
+                    const actDoc = await getDoc(actDocRef);
+                    if (actDoc.exists()) {
+                      await updateDoc(actDocRef, {
+                        participants: updatedParticipants,
+                      });
+                      const updatedAct = {
+                        ...act,
+                        participants: updatedParticipants,
+                      };
+                      setAct(updatedAct);
+                    }
+
+                    // adding to participated
+                    const userDocRef = doc(
+                      db,
+                      "users",
+                      "YDmNFX3RGsO9d2vEllwT7ItrfX82"
+                    );
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                      const userData = userDoc.data();
+                      const participatedActivities = [
+                        ...userData.participated,
+                        act.id,
+                      ];
+                      await updateDoc(userDocRef, {
+                        participated: participatedActivities,
+                      });
+                    }
+                  }}
+                >
+                  <Text style={styles.buttonText}>Participer</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         )}
+
+        {/* //Comments Section */}
+
+        <View style={styles.commentSection}>
+          <View style={styles.commentInput}>
+            <TextInput
+              style={styles.input}
+              placeholder="Avez-vous des questions ou autre chose?"
+              onChangeText={setNewComment}
+              value={newComment}
+            />
+            <TouchableOpacity
+              style={styles.commentInputButton}
+              onPress={handleComment}
+            >
+              <Text style={styles.commentInputText}>Ajouter</Text>
+            </TouchableOpacity>
+          </View>
+          {act.comments?.length > 0 ? (
+            act.comments
+              .slice()
+              .reverse()
+              .map((com, index) => {
+                return (
+                  <View style={styles.eachComment} key={index}>
+                    <View style={{ width: "100%" }}>
+                      <Text
+                        style={styles.commenterName}
+                        onPress={() => {
+                          //   navigate(`/user-profile/${com.userUID}`);
+                        }}
+                      >
+                        {com.user} :{" "}
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            // marginLeft: 20,
+                            fontWeight: "normal",
+                          }}
+                        >
+                          {com.comment}
+                        </Text>
+                      </Text>
+                      <View>
+                        <Text style={styles.timeStamp}>{com.time}</Text>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })
+          ) : (
+            <View style={styles.eachComment} key={Math.random()}>
+              <Text style={styles.noComment}>No comments</Text>
+            </View>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
@@ -235,7 +324,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   activityDescription: {
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: 10,
   },
   activityText: {
@@ -248,6 +337,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     marginTop: 10,
+    width: 220,
   },
   buttonText: {
     color: "#fff",
@@ -267,6 +357,76 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  commentSection: {
+    marginTop: 20,
+  },
+  commentInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingVertical: 5,
+    backgroundColor: "white",
+  },
+
+  commentInputText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  commentSection: {
+    width: "100%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "rgba(128, 128, 128, 0.127)",
+    padding: 10,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  eachComment: {
+    backgroundColor: "rgba(213, 213, 213, 0.356)",
+    marginTop: 15,
+    padding: 10,
+    paddingBottom: 20,
+
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  commenterName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  eachCommentText: {
+    marginLeft: 10,
+  },
+  timeStamp: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    fontSize: 12,
+  },
+  commentInput: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
+    width: "100%",
+  },
+
+  commentInputButton: {
+    backgroundColor: "#008cba",
+    padding: 5,
+    borderRadius: 5,
+    marginLeft: 10,
   },
 });
 
