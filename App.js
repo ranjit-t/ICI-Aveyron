@@ -5,10 +5,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Homepage from "./Screens/Homepage";
-import Profile from "./Screens/Profile";
-import StackNavigationSorties from "./StackNavigation/StackNavigationSorties";
 import StackNavigationStores from "./StackNavigation/StackNavigationStores";
-import StackNavigationProfile from "./StackNavigationProfile.js/StackNavigationProfile";
+import StackNavigationSorties from "./StackNavigation/StackNavigationSorties";
+import StackNavigationProfile from "./StackNavigation/StackNavigationProfile";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
