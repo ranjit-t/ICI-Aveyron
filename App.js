@@ -16,8 +16,8 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: "#008cba",
-          headerTintColor: "#008cba",
+          tabBarActiveTintColor: "#226000",
+          headerTintColor: "#226000",
           headerTitleAlign: "center",
           tabBarStyle: {
             height: 60,
@@ -34,15 +34,17 @@ export default function App() {
           options={{
             headerTitle: "AVEYRON-ICI",
             tabBarLabel: "Home",
+            headerTintColor: "#226000",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
             ),
           }}
         />
         <Tab.Screen
-          name="Nos Meilleures Adresses"
+          name="Nos Meilleures Adresses Hey"
           component={StackNavigationStores}
           options={{
+            headerTintColor: "#226000",
             headerShown: false,
             tabBarLabel: "Magasins",
             tabBarIcon: ({ color }) => (

@@ -108,7 +108,7 @@ const EachSortie = ({ route }) => {
             style={[
               styles.activityText,
               {
-                color: "#097396",
+                color: "#226000",
                 fontWeight: "bold",
               },
             ]}
@@ -145,7 +145,7 @@ const EachSortie = ({ route }) => {
                     style={[
                       styles.activityText,
                       {
-                        color: "#097396",
+                        color: "#226000",
                         fontWeight: "bold",
                       },
                     ]}
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   attendButton: {
-    backgroundColor: "#097396",
+    backgroundColor: "#226000",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   eachComment: {
-    backgroundColor: "#afc5e858",
+    backgroundColor: "#d5f2e2",
     marginTop: 15,
     padding: 10,
     paddingBottom: 20,
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
 
   commentInputButton: {
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     padding: 5,
     borderRadius: 5,
     marginLeft: 10,

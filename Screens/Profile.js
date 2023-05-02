@@ -19,6 +19,13 @@ const Profile = () => {
   }
   const [count, setCount] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
+  const [userFetchFailed, setUserFetchFailed] = useState(false);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setUserFetchFailed(true);
+  //   }, 4000);
+  // }, []);
 
   //Fetch Users
   useEffect(() => {
@@ -32,7 +39,8 @@ const Profile = () => {
         });
         setAllUsers(usersArray);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
+        setUserFetchFailed(true);
       }
     };
     fetchUsers();
@@ -53,14 +61,24 @@ const Profile = () => {
     return () => clearInterval(intervalId);
   }, [count, achievedscore]);
 
+  // if (userFetchFailed) {
+  //   return (
+  //     <View style={{ alignItems: "center", marginTop: 50 }}>
+  //       <Text style={{ color: "#226000" }}>Oops,</Text>
+  //     </View>
+  //   );
+  // }
+
   if (!currUser) {
-    return <Text></Text>;
+    return (
+      <View style={{ alignItems: "center", marginTop: 50 }}>
+        <Text style={{ color: "#226000" }}>...Chargement</Text>
+      </View>
+    );
   }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {/* <Text>hello</Text>
-      <Text>{userUID}</Text> */}
       <View style={styles.userProfilePage}>
         <Image
           style={styles.userProfilePhoto}
@@ -149,7 +167,7 @@ const styles = StyleSheet.create({
     // marginTop: 85,
     alignItems: "center",
     justifyContent: "center",
-    // borderColor: "#008cba",
+    // borderColor: "#226000",
     // borderWidth: 1,
     // borderRadius: 20,
     padding: 20,
@@ -180,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   profileButtons: {
-    backgroundColor: "#097396",
+    backgroundColor: "#226000",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

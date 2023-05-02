@@ -12,7 +12,7 @@ const SearchModal = ({
   setSearchCity,
   setSearchCategory,
 }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   return (
     <GestureRecognizer
       style={{ flex: 1 }}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   selectSearch: {
     width: 60,
     height: 60,
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     position: "absolute",
     bottom: 10,
     right: 10,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     width: 500,
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
   },

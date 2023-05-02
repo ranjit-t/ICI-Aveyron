@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   selectSearch: {
     width: 60,
     height: 60,
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     position: "absolute",
     bottom: 10,
     right: 10,

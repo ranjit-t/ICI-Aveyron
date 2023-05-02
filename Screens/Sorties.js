@@ -14,7 +14,7 @@ import SearchModal from "../ScreenComponents/SearchModal";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
 const Sorties = () => {
-  const [searchModalinStore, setSearchModalinStore] = useState(true);
+  const [searchModalinStore, setSearchModalinStore] = useState(false);
   const [searchCategory, setSearchCategory] = useState("");
   const [searchCity, setSearchCity] = useState("");
   // const [searchDate, setSearchDate] = useState("");
@@ -69,7 +69,7 @@ const Sorties = () => {
                   ([styles.eachActivity],
                   {
                     width: width,
-                    backgroundColor: "#afc5e858",
+                    backgroundColor: "#d5f2e2",
                     alignItems: "center",
                     marginBottom: 20,
                   })
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     // borderBottomColor: "white",
     // borderTopColor: "white",
     paddingBottom: 15,
-    backgroundColor: "#afc5e858",
+    backgroundColor: "#baffdb",
   },
   storeHeading: {
     marginTop: 10,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     height: 35,
     color: "white",
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     padding: 5,
     paddingHorizontal: 7,
     borderRadius: 10,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   selectSearch: {
     width: 60,
     height: 60,
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     position: "absolute",
     bottom: 10,
     right: 10,

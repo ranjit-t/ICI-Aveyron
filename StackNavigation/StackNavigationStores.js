@@ -28,7 +28,7 @@ const StackNavigationStores = () => {
               <Text
                 style={{
                   fontSize: 16,
-                  color: "#008cba",
+                  color: "#226000",
                   fontSize: 20,
                   fontWeight: "bold",
                 }}
