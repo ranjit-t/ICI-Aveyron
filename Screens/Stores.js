@@ -89,6 +89,7 @@ const Stores = () => {
                       <Picker.Item label="Où manger" value="Où manger" />
                       <Picker.Item label="Où dormir" value="Où dormir" />
                       <Picker.Item label="Service" value="Service" />
+                      <Picker.Item label="Service" value="Entreprises" />
                     </Picker>
                   </View>
                   <View style={{ flexDirection: "row" }}>
@@ -115,17 +116,6 @@ const Stores = () => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  {/* <View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSearchModalinStore((prev) => !prev);
-                      }}
-                    >
-                      <Text style={[styles.pageButton, styles.cancelButton]}>
-                        Back
-                      </Text>
-                    </TouchableOpacity>
-                  </View> */}
                 </View>
               </View>
             </View>
@@ -259,7 +249,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     width: 500,
-    backgroundColor: "#008cba",
+    backgroundColor: "#226000",
     borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
   },
