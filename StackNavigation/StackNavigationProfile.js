@@ -111,7 +111,7 @@ const StackNavigationProfile = () => {
                   fontWeight: "bold",
                 }}
               >
-                Organise
+                Organiser
               </Text>
             </View>
           ),

@@ -30,7 +30,6 @@ const Sorties = () => {
     .filter((act) => new Date(act.date).getTime() >= now)
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  //   console.log(upcomingActivities);
   return (
     <View style={styles.container}>
       <View style={styles.selectSearch}>
@@ -64,47 +63,57 @@ const Sorties = () => {
           keyExtractor={(act) => act.name}
           renderItem={(act) => {
             return (
-              <View
-                style={
-                  ([styles.eachActivity],
-                  {
-                    width: width,
-                    backgroundColor: "#d5f2e2",
-                    alignItems: "center",
-                    marginBottom: 20,
-                  })
-                }
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("SingleSortie", {
+                    eventID: act.item.id,
+                  });
+                }}
               >
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>
-                    {act.item.name}
-                  </Text>
-                </View>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.activityText}>
-                    {act.item.description.slice(0, 80) + "....."}
-                  </Text>
-                </View>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>Ville : </Text>
-                  <Text style={styles.activityText}>{act.item.city}</Text>
-                </View>
-                <View style={styles.storeDescription}>
-                  <Text style={styles.storeDescriptionHeading}>Date : </Text>
-                  <Text style={styles.activityText}>{act.item.date}</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("SingleSortie", {
-                      eventID: act.item.id,
-                    });
-                  }}
+                <View
+                  style={
+                    ([styles.eachActivity],
+                    {
+                      width: width,
+                      backgroundColor: "#d5f2e2",
+                      alignItems: "center",
+                      marginVertical: 10,
+                      // borderRadius: 20,
+                      paddingVertical: 20,
+                    })
+                  }
                 >
-                  <Text style={[styles.pageButton, styles.cancelButton]}>
-                    Plus d'options
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>
+                      {act.item.name}
+                    </Text>
+                  </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.activityText}>
+                      {act.item.description.slice(0, 80) + "....."}
+                    </Text>
+                  </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>Ville : </Text>
+                    <Text style={styles.activityText}>{act.item.city}</Text>
+                  </View>
+                  <View style={styles.storeDescription}>
+                    <Text style={styles.storeDescriptionHeading}>Date : </Text>
+                    <Text style={styles.activityText}>{act.item.date}</Text>
+                  </View>
+                  {/* <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("SingleSortie", {
+                        eventID: act.item.id,
+                      });
+                    }}
+                  >
+                    <Text style={[styles.pageButton, styles.cancelButton]}>
+                      Plus d'options
+                    </Text>
+                  </TouchableOpacity> */}
+                </View>
+              </TouchableOpacity>
             );
           }}
         ></FlatList>
@@ -127,11 +136,12 @@ const styles = StyleSheet.create({
     // borderTopColor: "white",
     paddingBottom: 15,
     backgroundColor: "#baffdb",
+    borderRadius: 20,
   },
   storeHeading: {
     marginTop: 10,
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: 500,
   },
   storeDescription: {
     flexDirection: "row",
@@ -139,7 +149,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   storeDescriptionHeading: {
-    fontWeight: "bold",
+    fontWeight: 500,
     fontSize: 20,
   },
   pageButton: {
