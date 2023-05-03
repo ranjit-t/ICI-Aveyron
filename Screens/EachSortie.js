@@ -301,7 +301,7 @@ const EachSortie = ({ route }) => {
                           style={{
                             fontSize: 18,
                             fontWeight: "normal",
-                            lineHeight: 24,
+                            lineHeight: 25,
                           }}
                         >
                           {com.comment}
@@ -339,6 +339,8 @@ const styles = StyleSheet.create({
   activityDescription: {
     fontSize: 20,
     marginBottom: 10,
+    textAlign: "justify",
+    lineHeight: 25,
   },
   noComment: {
     fontSize: 17,
