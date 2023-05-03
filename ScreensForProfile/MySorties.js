@@ -77,7 +77,10 @@ function MySorties() {
     // }
   };
   return (
-    <ScrollView>
+    <ScrollView
+      style={styles.myActivitiesPage}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.myActivitiesPage}>
         {upcomingActivities.length > 0 && (
           <View style={styles.myActivitiesList}>
@@ -88,8 +91,11 @@ function MySorties() {
                   key={indx}
                   style={styles.activityMap}
                   onPress={() => {
-                    navigation.navigate("SingleSortie", {
-                      eventID: act.id,
+                    navigation.navigate("All Sorties", {
+                      screen: "SingleSortie",
+                      params: {
+                        eventID: act.id,
+                      },
                     });
                   }}
                 >
@@ -125,7 +131,12 @@ function MySorties() {
                   key={indx * indx}
                   style={[styles.activityMap, styles.pastActivities]}
                   onPress={() => {
-                    // navigate(`/activity/${act.id}`);
+                    navigation.navigate("All Sorties", {
+                      screen: "SingleSortie",
+                      params: {
+                        eventID: act.id,
+                      },
+                    });
                   }}
                 >
                   <Text>
