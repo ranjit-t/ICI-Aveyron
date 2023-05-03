@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 
 const Organise = () => {
   const [activityName, setActivityName] = useState("");
@@ -20,70 +28,76 @@ const Organise = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Créer une activité</Text>
-      {1 === 1 ? (
-        <View>
-          <TextInput
-            style={styles.input}
-            onChangeText={(value) => setActivityName(value)}
-            value={activityName}
-            placeholder="Nom de l'activité"
-            required
-          />
-          {/* <TextInput
-            style={styles.input}
-            onChangeText={(value) => setDescription(value)}
-            value={description}
-            placeholder="Décrivez votre activité"
-            required
-          /> */}
-          <TextInput
-            style={styles.textInputWithBorder}
-            multiline={true}
-            numberOfLines={4} // You can set this value to your desired number of lines
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            placeholder="Décrivez votre activité"
-            required
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={(value) => setDate(value)}
-            value={date}
-            placeholder="Date"
-            required
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={(value) => setTime(value)}
-            value={time}
-            placeholder="Heure de départ"
-            required
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={(value) => setAddress(value)}
-            value={address}
-            placeholder="Adresse"
-            required
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={(value) => setCity(value)}
-            value={city}
-            placeholder="Ville"
-            required
-          />
-          <Button title="Créer" onPress={handleSubmit} style={styles.button} />
-        </View>
-      ) : (
-        <View style={styles.notLoggedIn}>
-          <Text>Veuillez vous connecter pour accéder à cette page</Text>
-        </View>
-      )}
-      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
-    </View>
+    <ScrollView style={{ backgroundColor: "white" }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Organiser une sortie</Text>
+        {1 === 1 ? (
+          <View>
+            <Text style={styles.inputIntoText}>Title :</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => setActivityName(value)}
+              value={activityName}
+              placeholder="Nom de l'activité"
+              required
+            />
+
+            <Text style={styles.inputIntoText}>Description :</Text>
+            <TextInput
+              style={styles.textInputWithBorder}
+              multiline={true}
+              numberOfLines={4} // You can set this value to your desired number of lines
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+              placeholder="Décrivez votre activité"
+              required
+            />
+            <Text style={styles.inputIntoText}>Date :</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => setDate(value)}
+              value={date}
+              placeholder="Date"
+              required
+            />
+            <Text style={styles.inputIntoText}>Heure de départe :</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => setTime(value)}
+              value={time}
+              placeholder="Heure de départ"
+              required
+            />
+            <Text style={styles.inputIntoText}>Adress :</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => setAddress(value)}
+              value={address}
+              placeholder="Adresse"
+              required
+            />
+            <Text style={styles.inputIntoText}>Ville :</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => setCity(value)}
+              value={city}
+              placeholder="Ville"
+              required
+            />
+            <TouchableOpacity onPress={handleSubmit}>
+              <Text style={styles.pageButton}>Créer</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.notLoggedIn}>
+            <Text>Veuillez vous connecter pour accéder à cette page</Text>
+          </View>
+        )}
+        {errorMessage && (
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -92,6 +106,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 24,
@@ -111,7 +127,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    height: 100, // You can set this value to your desired height
+    height: 100,
+    minWidth: 350,
   },
   notLoggedIn: {
     marginTop: 20,
@@ -129,6 +146,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  pageButton: {
+    fontSize: 20,
+    height: 35,
+    color: "white",
+    backgroundColor: "#226000",
+    padding: 5,
+    textAlign: "center",
+    // paddingHorizontal: 10,
+    // marginHorizontal: 10,
+    // borderRadius: 10,
+    // marginTop: 10,
   },
 });
 
