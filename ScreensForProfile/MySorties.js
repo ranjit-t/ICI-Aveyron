@@ -140,10 +140,16 @@ function MySorties() {
                   }}
                 >
                   <Text>
-                    <Text style={styles.boldText}>{act.name}</Text>
+                    <Text style={[styles.boldText, styles.pastText]}>
+                      {act.name}
+                    </Text>
                   </Text>
-                  <Text style={styles.normalText}>{act.date}</Text>
-                  <Text style={styles.normalText}>{act.city}</Text>
+                  <Text style={[styles.normalText, styles.pastText]}>
+                    {act.date}
+                  </Text>
+                  <Text style={[styles.normalText, styles.pastText]}>
+                    {act.city}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
@@ -181,6 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    textAlign: "center",
   },
   activityMap: {
     // flexDirection: "row",
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "white",
     borderRadius: 5,
     marginBottom: 10,
     position: "relative",
@@ -202,6 +209,9 @@ const styles = StyleSheet.create({
   normalText: {
     color: "white",
     marginVertical: 5,
+  },
+  pastText: {
+    color: "#4a4949",
   },
   deleteActivity: {
     backgroundColor: "red",
@@ -217,7 +227,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     right: 10,
-    top: "50%",
+    top: "45%",
   },
   bellIcon: {
     width: 30,
@@ -225,7 +235,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   pastActivities: {
-    opacity: 0.5,
+    // opacity: 0.5,
+    backgroundColor: "#baffdb",
   },
   noActivity: {
     flex: 1,
