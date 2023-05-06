@@ -17,6 +17,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 const Settings = () => {
   const [name, setName] = useState("Ranjit");
   const [city, setCity] = useState("Rodez");
@@ -26,6 +28,10 @@ const Settings = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const [message, setMessage] = useState("");
+
+  const [datePicker, setDatePicker] = useState(false);
+
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     (async () => {

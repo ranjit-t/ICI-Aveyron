@@ -12,14 +12,21 @@ const SearchModal = ({
   setSearchCity,
   setSearchCategory,
 }) => {
-  // const [open, setOpen] = useState(false);
   return (
     <GestureRecognizer
-      style={{ flex: 1 }}
+      style={{ flex: 1, flex: 1, position: "relative" }}
       // onSwipeUp={() => setSearchModalinStore((prev) => !prev)}
       onSwipeDown={() => setSearchModalinStore((prev) => !prev)}
     >
       <Modal animationType="slide" transparent={true}>
+        <TouchableOpacity
+          style={{
+            flex: 0.5,
+          }}
+          onPress={() => {
+            setSearchModalinStore(false);
+          }}
+        ></TouchableOpacity>
         <View
           style={{
             justifyContent: "flex-end",
@@ -46,7 +53,7 @@ const SearchModal = ({
                   <Picker.Item label="Naucelle" value="Naucelle" />
                 </Picker>
               </View>
-              <Text style={styles.modalSearchText}>Category</Text>
+              <Text style={{ color: "black", fontSize: 30 }}>Category</Text>
               <View style={[styles.searchContainer, styles.selectCateogory]}>
                 <Picker
                   style={styles.selectCateogory}
@@ -65,10 +72,7 @@ const SearchModal = ({
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // setSearchCity("");
-                    // setSelectedValue("");
-                    setSearchModalinStore((prev) => !prev);
-                    // searchModal = false;
+                    setSearchModalinStore(false);
                   }}
                 >
                   <Text style={styles.pageButton}>Rechercher</Text>
@@ -138,10 +142,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    width: 500,
+    width: "100%",
     backgroundColor: "#226000",
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 100,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   modalSearchText: { fontSize: 20, color: "white", fontWeight: "bold" },
   activityText: {

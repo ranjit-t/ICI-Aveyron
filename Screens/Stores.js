@@ -19,12 +19,17 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import GestureRecognizer from "react-native-swipe-gestures";
 
 const Stores = () => {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
   const [searchCity, setSearchCity] = useState("");
 
   const [searchModalinStore, setSearchModalinStore] = useState(false);
 
   const navigation = useNavigation();
+  let StoresFilteredList = StoresData.filter(
+    (Store) =>
+      Store.category.toLowerCase().includes(searchCategory.toLowerCase()) &&
+      Store.city.toLowerCase().includes(searchCity.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
@@ -43,15 +48,26 @@ const Stores = () => {
       </View>
       {searchModalinStore && (
         <GestureRecognizer
-          style={{ flex: 1 }}
-          // onSwipeUp={() => setSearchModalinStore((prev) => !prev)}
+          style={{ flex: 1, flex: 1, position: "relative" }}
           onSwipeDown={() => setSearchModalinStore((prev) => !prev)}
         >
           <Modal animationType="slide" transparent={true}>
+            <TouchableOpacity
+              style={{
+                flex: 0.5,
+              }}
+              onPress={() => {
+                setSearchModalinStore(false);
+              }}
+            ></TouchableOpacity>
             <View
               style={{
                 justifyContent: "flex-end",
-                flex: 1,
+                // flex: 1,
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
               }}
             >
               <View style={styles.searchModal}>
@@ -82,8 +98,10 @@ const Stores = () => {
                   >
                     <Picker
                       style={styles.selectCateogory}
-                      selectedValue={selectedValue}
-                      onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                      selectedValue={searchCategory}
+                      onValueChange={(itemValue) =>
+                        setSearchCategory(itemValue)
+                      }
                     >
                       <Picker.Item label="----" value="" />
                       <Picker.Item label="Où manger" value="Où manger" />
@@ -95,8 +113,6 @@ const Stores = () => {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity
                       onPress={() => {
-                        // setSearchCity("");
-                        // setSelectedValue("");
                         setSearchModalinStore((prev) => !prev);
                         searchModal = false;
                       }}
@@ -106,9 +122,8 @@ const Stores = () => {
                     <TouchableOpacity
                       onPress={() => {
                         setSearchCity("");
-                        setSelectedValue("");
-                        // setSearchModalinStore((prev) => !prev);
-                        searchModal = false;
+                        setSearchCategory("");
+                        // searchModal = false;
                       }}
                     >
                       <Text style={[styles.pageButton, styles.clearButton]}>
@@ -123,52 +138,72 @@ const Stores = () => {
         </GestureRecognizer>
       )}
 
-      <View style={{ marginBottom: 20 }}>
-        <FlatList
-          data={StoresData}
-          keyExtractor={(store) => store.storeID}
-          renderItem={(store) => {
-            return (
-              <View style={styles.eachStore}>
-                <Pressable
-                  // android_ripple={{ color: "#245953" }}
-                  style={({ pressed }) =>
-                    pressed
-                      ? [styles.eachStore, styles.normalView, styles.pressed]
-                      : [styles.normalView, styles.eachStore]
-                  }
-                  onPress={() => {
-                    navigation.navigate("SingleStore", {
-                      storeID: store.item.storeID,
-                    });
-                  }}
-                >
-                  <Image
-                    source={{ uri: store.item.photos[0] }}
-                    style={styles.image}
-                    //   style={{ width: 150, height: 100 }}
-                  />
-                  <Text style={styles.storeHeading}>{store.item.name}</Text>
-                  <View style={styles.storeDescription}>
-                    <Text style={styles.storeDescriptionHeading}>Type : </Text>
-                    <Text>{store.item.type}</Text>
-                  </View>
-                  <View style={styles.storeDescription}>
-                    <Text style={styles.storeDescriptionHeading}>Ville : </Text>
-                    <Text>{store.item.city}</Text>
-                  </View>
-                  <View style={styles.storeDescription}>
-                    <Text style={styles.storeDescriptionHeading}>
-                      Speciality :
-                    </Text>
-                    <Text>{store.item.speciality}</Text>
-                  </View>
-                </Pressable>
-              </View>
-            );
+      {StoresFilteredList.length > 0 ? (
+        <View style={{ marginBottom: 20 }}>
+          <FlatList
+            data={StoresFilteredList}
+            keyExtractor={(store) => store.storeID}
+            renderItem={(store) => {
+              return (
+                <View style={styles.eachStore}>
+                  <Pressable
+                    // android_ripple={{ color: "#245953" }}
+                    style={({ pressed }) =>
+                      pressed
+                        ? [styles.eachStore, styles.normalView, styles.pressed]
+                        : [styles.normalView, styles.eachStore]
+                    }
+                    onPress={() => {
+                      navigation.navigate("SingleStore", {
+                        storeID: store.item.storeID,
+                      });
+                    }}
+                  >
+                    <Image
+                      source={{ uri: store.item.photos[0] }}
+                      style={styles.image}
+                      //   style={{ width: 150, height: 100 }}
+                    />
+                    <Text style={styles.storeHeading}>{store.item.name}</Text>
+                    <View style={styles.storeDescription}>
+                      <Text style={styles.storeDescriptionHeading}>
+                        Type :{" "}
+                      </Text>
+                      <Text>{store.item.type}</Text>
+                    </View>
+                    <View style={styles.storeDescription}>
+                      <Text style={styles.storeDescriptionHeading}>
+                        Ville :{" "}
+                      </Text>
+                      <Text>{store.item.city}</Text>
+                    </View>
+                    <View style={styles.storeDescription}>
+                      <Text style={styles.storeDescriptionHeading}>
+                        Speciality :
+                      </Text>
+                      <Text>{store.item.speciality}</Text>
+                    </View>
+                  </Pressable>
+                </View>
+              );
+            }}
+          ></FlatList>
+        </View>
+      ) : (
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></FlatList>
-      </View>
+        >
+          <Text
+            style={{ fontSize: 20, marginHorizontal: 20, marginVertical: 50 }}
+          >
+            Rien trouvé, mais nous ajouterons bientôt d'autres adresses
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -248,10 +283,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    width: 500,
+    width: "100%",
     backgroundColor: "#226000",
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 100,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   modalSearchText: { fontSize: 20, color: "white", fontWeight: "bold" },
   activityText: {

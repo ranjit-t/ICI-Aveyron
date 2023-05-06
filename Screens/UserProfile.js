@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   userProfilePage: {
     // marginTop: 85,
     alignItems: "center",
-    borderColor: "#008cba",
+    borderColor: "#226000",
     borderWidth: 1,
     borderRadius: 20,
     padding: 20,
