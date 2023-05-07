@@ -5,11 +5,13 @@ import { collection, getDocs } from "firebase/firestore";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 const Profile = () => {
   const userUID = "YDmNFX3RGsO9d2vEllwT7ItrfX82";
   const navigation = useNavigation();
-
+  const route = useRoute();
+  let reload = route.params?.reload;
   //age
   function calculateAge(timestamp) {
     const birthday = new Date(timestamp * 1000);
@@ -20,12 +22,6 @@ const Profile = () => {
   const [count, setCount] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
   const [userFetchFailed, setUserFetchFailed] = useState(false);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setUserFetchFailed(true);
-  //   }, 4000);
-  // }, []);
 
   //Fetch Users
   useEffect(() => {
@@ -44,7 +40,7 @@ const Profile = () => {
       }
     };
     fetchUsers();
-  }, []);
+  }, [reload]);
   const currUser = allUsers.filter((user) => user.userID === userUID)[0];
 
   const achievedscore = currUser

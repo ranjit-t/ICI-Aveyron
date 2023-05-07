@@ -20,17 +20,21 @@ import { launchCameraAsync } from "expo-image-picker";
 
 import { Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
 
 const Settings = () => {
   const [name, setName] = useState("Ranjit");
   const [city, setCity] = useState("Rodez");
   const [dob, setDob] = useState("18-07-1994");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date("1994-07-18"));
   const [image, setImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
 
   const [message, setMessage] = useState("");
 
   const [datePicker, setDatePicker] = useState(false);
+
+  const navigation = useNavigation();
 
   function showDatePicker() {
     setDatePicker(true);
@@ -64,6 +68,9 @@ const Settings = () => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      const response = await fetch(result.uri);
+      const blob = await response.blob();
+      setProfileImage(blob);
     }
   };
 
@@ -75,8 +82,116 @@ const Settings = () => {
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      const response = await fetch(result.uri);
+      const blob = await response.blob();
+      setProfileImage(blob);
     }
   };
+
+  //Firebase
+
+  const handleSaveChanges = async () => {
+    if (profileImage) {
+      console.log("step1");
+      let photoURL;
+      const imageRef = ref(storage, `amailtoranjith@gmail.com.jpg`);
+
+      const uploadTask = uploadBytesResumable(imageRef, profileImage);
+
+      // Wait for the upload task to complete before updating the profile photo URL
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            reject(error);
+            console.log("step2");
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                // setProfilePhotoURL(downloadURL);
+                photoURL = downloadURL;
+                console.log("step3");
+                resolve();
+              })
+              .catch((error) => {
+                reject(error);
+                console.log("step4");
+              });
+          }
+        );
+      });
+
+      const userDocRef = doc(db, "users", "YDmNFX3RGsO9d2vEllwT7ItrfX82");
+      const userDoc = await getDoc(userDocRef);
+      console.log("step5");
+      try {
+        if (userDoc.exists()) {
+          const updatedFields = {};
+          // if (name !== currUser.displayName) {
+          updatedFields.displayName = name;
+          updatedFields.profilePhoto = photoURL;
+          // }
+          // if (city !== currUser.city) {
+          updatedFields.city = city;
+          updatedFields.profilePhoto = photoURL;
+          // }
+          // if (dob.getTime() !== currUser.dob.toDate().getTime()) {
+          updatedFields.dob = date;
+          updatedFields.profilePhoto = photoURL;
+          // }
+          await updateDoc(userDocRef, updatedFields);
+          console.log("step6");
+          // const user = auth.currentUser;
+          //   await updateProfile(user, {
+          //     displayName: name,
+          //     photoURL: photoURL,
+          //     dob: date,
+          //   });
+          console.log("step7");
+          navigation.navigate("Profile", {
+            reload: Math.random(),
+          });
+        }
+      } catch (e) {
+        // console.log(e.message);
+        // setMessage("Oops, there is an error");
+        setMessage(e.message);
+        console.log("step8");
+      }
+    } else {
+      const userDocRef = doc(db, "users", "YDmNFX3RGsO9d2vEllwT7ItrfX82");
+      const userDoc = await getDoc(userDocRef);
+      try {
+        if (userDoc.exists()) {
+          const updatedFields = {};
+          // if (name !== currUser.displayName) {
+          updatedFields.displayName = name;
+          // }
+          // if (city !== currUser.city) {
+          updatedFields.city = city;
+          // }
+          // if (dob.getTime() !== currUser.dob.toDate().getTime()) {
+          updatedFields.dob = date;
+          // }
+          await updateDoc(userDocRef, updatedFields);
+          // console.log("updated");
+          // const user = auth.currentUser;
+          // await updateProfile(user, {
+          //   displayName: name,
+          //   dob: date,
+          // });
+          setMessage("Changes Saved!");
+        }
+      } catch (e) {
+        // console.log(e.message);
+        // setMessage("Oops, there is an error");
+        setMessage(e.message);
+      }
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -151,10 +266,7 @@ const Settings = () => {
           </View>
         )}
 
-        <TouchableOpacity
-          style={styles.button}
-          // onPress={handleSaveChanges}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
           <Text style={styles.buttonText}>Modifier</Text>
         </TouchableOpacity>
 
