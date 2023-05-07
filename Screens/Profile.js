@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { db } from "../Firebase/config";
-import { collection, getDocs } from "firebase/firestore";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+
+import { signedUser } from "../Firebase/config";
+import { db } from "../Firebase/config";
+import { doc, getDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+import { auth } from "../Firebase/config";
 
 const Profile = () => {
   const userUID = "YDmNFX3RGsO9d2vEllwT7ItrfX82";
@@ -20,28 +24,40 @@ const Profile = () => {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
   const [count, setCount] = useState(0);
-  const [allUsers, setAllUsers] = useState([]);
-  const [userFetchFailed, setUserFetchFailed] = useState(false);
 
   //Fetch Users
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const colRef = collection(db, "users");
+  //       const docsSnap = await getDocs(colRef);
+  //       let usersArray = [];
+  //       docsSnap.forEach((doc) => {
+  //         usersArray.push(doc.data());
+  //       });
+  //       setAllUsers(usersArray);
+  //     } catch (error) {
+  //       // console.error(error);
+  //       // setUserFetchFailed(true);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, [reload]);
+
+  const [currUser, setCurrUser] = useState(null);
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const colRef = collection(db, "users");
-        const docsSnap = await getDocs(colRef);
-        let usersArray = [];
-        docsSnap.forEach((doc) => {
-          usersArray.push(doc.data());
-        });
-        setAllUsers(usersArray);
-      } catch (error) {
-        // console.error(error);
-        setUserFetchFailed(true);
+    async function fetchUserData() {
+      if (signedUser) {
+        const userDocRef = doc(db, "users", signedUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setCurrUser(userDoc.data());
+        }
       }
-    };
-    fetchUsers();
-  }, [reload]);
-  const currUser = allUsers.filter((user) => user.userID === userUID)[0];
+    }
+    fetchUserData();
+  }, [signedUser, reload]);
 
   const achievedscore = currUser
     ? parseInt(currUser.participated.length) * 5 +
@@ -56,14 +72,6 @@ const Profile = () => {
     }, 3);
     return () => clearInterval(intervalId);
   }, [count, achievedscore]);
-
-  // if (userFetchFailed) {
-  //   return (
-  //     <View style={{ alignItems: "center", marginTop: 50 }}>
-  //       <Text style={{ color: "#226000" }}>Oops,</Text>
-  //     </View>
-  //   );
-  // }
 
   if (!currUser) {
     return (
@@ -152,6 +160,14 @@ const Profile = () => {
           }}
         >
           <Text style={styles.buttonText}>Paramètres</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.profileButtons, { marginBottom: 20 }]}
+          onPress={() => {
+            signOut(auth);
+          }}
+        >
+          <Text style={styles.buttonText}>Se-déconnecter</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

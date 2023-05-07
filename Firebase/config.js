@@ -21,16 +21,12 @@ export const storage = getStorage();
 export let signedUser = null; // initialize signedUser to null
 
 onAuthStateChanged(auth, (user) => {
-  try {
-    signedUser = user
-      ? {
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          uid: user.uid,
-        }
-      : null;
-  } catch (e) {
-    alert("not connected");
-  }
+  signedUser = user
+    ? {
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid,
+      }
+    : null;
 });

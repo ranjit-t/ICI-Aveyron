@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import React, { useState, useEffect } from "react";
+
 import Sorties from "../Screens/Sorties";
 
 import EachSortie from "../Screens/EachSortie";
 
-import React from "react";
 import UserProfile from "../Screens/UserProfile";
 import Profile from "../Screens/Profile";
 import MySorties from "../ScreensForProfile/MySorties";
@@ -13,8 +14,49 @@ import Organise from "../ScreensForProfile/Organise";
 import MyParticipations from "../ScreensForProfile/MyParticipations";
 import Settings from "../ScreensForProfile/Settings";
 
+// import { signedUser } from "../Firebase/config";
+import { doc, getDoc } from "firebase/firestore";
+import Login from "../ScreenComponents/Login";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Firebase/config";
+import Signup from "../ScreenComponents/Signup";
+
 const StackNavigationProfile = () => {
   const Stack = createNativeStackNavigator();
+
+  const [signedUser, setSignedUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setSignedUser(
+        user
+          ? {
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              uid: user.uid,
+            }
+          : null
+      );
+    });
+  }, []);
+
+  // const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   async function fetchUserData() {
+  //     if (signedUser) {
+  //       const userDocRef = doc(db, "users", signedUser.uid);
+  //       const userDoc = await getDoc(userDocRef);
+  //       if (userDoc.exists()) {
+  //         setUser(userDoc.data());
+  //         // console.log(userDoc.data());
+  //       }
+  //     }
+  //   }
+  //   fetchUserData();
+  //   console.log(user);
+  // }, [signedUser]);
 
   return (
     <Stack.Navigator
@@ -25,8 +67,8 @@ const StackNavigationProfile = () => {
       }}
     >
       <Stack.Screen
-        name="Profile"
-        component={Profile}
+        name="Signup"
+        component={Signup}
         options={{
           headerTitleAlign: "center",
           headerTitle: () => (
@@ -55,6 +97,71 @@ const StackNavigationProfile = () => {
           ),
         }}
       />
+      {signedUser ? (
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: () => (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: 70,
+                }}
+              >
+                <Image
+                  source={require("../assets/Images/ici-laveyron.png")}
+                  style={{ height: 40, width: 40 }}
+                />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "#226000",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Profil
+                </Text>
+              </View>
+            ),
+          }}
+        />
+      ) : (
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: () => (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: 70,
+                }}
+              >
+                <Image
+                  source={require("../assets/Images/ici-laveyron.png")}
+                  style={{ height: 40, width: 40 }}
+                />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "#226000",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Profil
+                </Text>
+              </View>
+            ),
+          }}
+        />
+      )}
       <Stack.Screen
         name="MySorties"
         component={MySorties}
